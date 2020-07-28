@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-program",
+  "version": "1.0.0",
+  "description": "nodejs-hw1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreisavelyeu/nodejs-program.git"
+  },
+  "author": "Andrei Savelyeu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreisavelyeu/nodejs-program/issues"
+  },
+  "homepage": "https://github.com/andreisavelyeu/nodejs-program#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
