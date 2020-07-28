@@ -4,7 +4,7 @@
   "description": "nodejs-hw1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "task1": "nodemon src/task1" 
   },
   "repository": {
     "type": "git",
