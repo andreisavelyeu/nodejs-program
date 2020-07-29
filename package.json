@@ -4,7 +4,8 @@
   "description": "nodejs-hw1",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon src/task1" 
+    "task1": "nodemon src/task1",
+    "task2": "nodemon src/task2"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,8 @@
   "homepage": "https://github.com/andreisavelyeu/nodejs-program#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
   }
 }
