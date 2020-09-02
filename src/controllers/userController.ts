@@ -1,35 +1,50 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Response, Request } from 'express';
 import { getAutoSuggestUsers } from '../services/getAutoSuggestUsers';
-import { userList } from '../index';
+import { UserModel } from '../models/UserModel';
 
-export const getAllUsers = (req: Request, res: Response): void => {
-    const { loginSubstring, limit } = req.body;
-    const filteredUserList = getAutoSuggestUsers(loginSubstring, limit);
+export const getAllUsers = async (req: Request, res: Response) => {
+    const { loginSubstring, limit } = req.query;
+    const filteredUserList = await getAutoSuggestUsers(loginSubstring, +limit);
     res.json(filteredUserList);
 };
 
-export const getUser = (req: Request, res: Response): void => {
-    res.json(userList[req.params.id]);
+export const getUser = async (req: Request, res: Response) => {
+    const user = await UserModel.findByPk(req.params.id);
+    if (user) {
+        res.json(user);
+    } else {
+        res.sendStatus(404);
+    }
 };
 
-export const createUser = (req: Request, res: Response): void => {
+export const createUser = async (req: Request, res: Response) => {
     const { body } = req;
-    const id = uuidv4();
-    const isDeleted = false;
-    userList[id] = { ...body, isDeleted, id };
+    await UserModel.create(body);
     res.sendStatus(201);
 };
 
-export const updateUser = (req: Request, res: Response): void => {
+export const updateUser = async (req: Request, res: Response) => {
     const { body } = req;
     const { id } = req.params;
-    userList[id] = { ...userList[id], ...body };
-    res.sendStatus(204);
+    const user = await UserModel.findByPk(id);
+    if (user) {
+        Object.entries(body).map(([key, value]) => (user[key] = value));
+        user.save();
+        res.sendStatus(204);
+    } else {
+        res.sendStatus(404);
+    }
 };
 
-export const deleteUser = (req: Request, res: Response): void => {
+export const deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
-    userList[id] = { ...userList[id], isDeleted: true };
-    res.sendStatus(204);
+    const user = await UserModel.findByPk(id);
+    if (user) {
+        user['isDeleted'] = true;
+        user.save();
+        // user.destroy();
+        res.sendStatus(204);
+    } else {
+        res.sendStatus(404);
+    }
 };

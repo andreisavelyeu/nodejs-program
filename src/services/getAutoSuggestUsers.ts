@@ -1,13 +1,18 @@
-import { userList } from '../index';
-import { User } from '../types/user';
+import { UserModel } from '../models/UserModel';
+import { Op } from 'sequelize';
+import { ParsedQs } from 'qs';
 
 export const getAutoSuggestUsers = (
-    loginSubstring: string,
+    loginSubstring: string | ParsedQs | string[] | ParsedQs[],
     limit: number
-): User[] => {
-    const filteredUserList = Object.values(userList)
-        .sort((a, b) => a.login.localeCompare(b.login))
-        .filter(({ login }) => login.includes(loginSubstring))
-        .slice(0, limit);
-    return filteredUserList;
+) => {
+    return UserModel.findAll({
+        where: {
+            login: {
+                [Op.iLike]: `%${loginSubstring}%`
+            }
+        },
+        raw: true,
+        limit: limit
+    });
 };
