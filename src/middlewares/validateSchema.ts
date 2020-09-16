@@ -15,6 +15,34 @@ export const schemas = {
             .pattern(new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z])'))
             .optional(),
         age: Joi.number().integer().min(4).max(130).optional()
+    }),
+    groupCreate: Joi.object().keys({
+        name: Joi.string().alphanum().min(3).max(30).required(),
+        permissions: Joi.array()
+            .items(
+                Joi.string().valid(
+                    'READ',
+                    'WRITE',
+                    'DELETE',
+                    'SHARE',
+                    'UPLOAD_FILES'
+                )
+            )
+            .required()
+    }),
+    groupUpdate: Joi.object().keys({
+        name: Joi.string().alphanum().min(3).max(30).optional(),
+        permissions: Joi.array()
+            .items(
+                Joi.string().valid(
+                    'READ',
+                    'WRITE',
+                    'DELETE',
+                    'SHARE',
+                    'UPLOAD_FILES'
+                )
+            )
+            .optional()
     })
 };
 
