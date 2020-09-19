@@ -12,6 +12,9 @@ app.use(express.json());
 app.use(userRouter);
 app.use(groupRouter);
 
+GroupModel.belongsToMany(UserModel, { through: 'UserGroups' });
+UserModel.belongsToMany(GroupModel, { through: 'UserGroups' });
+
 sequelize.sync({ force: true }).then(() => {
     console.log(`Database & tables created!`);
 

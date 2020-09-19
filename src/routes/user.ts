@@ -5,7 +5,8 @@ import {
     getAllUsers,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    joinGroup
 } from '../controllers/userController';
 export const userRouter = express.Router();
 
@@ -14,3 +15,4 @@ userRouter.get('/user/:id', getUser);
 userRouter.post('/user', validateSchema(schemas.userCreate), createUser);
 userRouter.put('/user/:id', validateSchema(schemas.userUpdate), updateUser);
 userRouter.delete('/user/:id', deleteUser);
+userRouter.post('/user/joingroup', joinGroup);
