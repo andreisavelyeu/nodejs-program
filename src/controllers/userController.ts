@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import { UserModel } from '../models/UserModel';
 import { UserService } from '../services/userService';
+import { addUsersToGroup } from '../services/addUsersToGroup';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     const { loginSubstring, limit } = req.query;
@@ -38,4 +39,14 @@ export const deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     await UserService.delete(id);
     res.sendStatus(204);
+};
+
+export const joinGroup = async (req: Request, res: Response) => {
+    const { userIds, groupId } = req.body;
+    const result = await addUsersToGroup(groupId, userIds);
+    if (result) {
+        res.sendStatus(201);
+    } else {
+        res.sendStatus(404);
+    }
 };
