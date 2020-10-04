@@ -15,7 +15,7 @@ export const logger = createLogger({
         }),
         format.errors({ stack: true }),
         format.splat(),
-        format.simple()
+        format.json()
     ),
     defaultMeta: { service: 'users-app' },
     transports: [new transports.Console()]

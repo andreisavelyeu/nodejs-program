@@ -2,7 +2,7 @@ import { TokenIndexer, token } from 'morgan';
 import { Request, Response } from 'express';
 import chalk from 'chalk';
 
-const normalizeSensitiveData = (
+export const normalizeSensitiveData = (
     body: Record<string, unknown>,
     sensitiveKey: string | Array<string>
 ) => {
