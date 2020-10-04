@@ -1,4 +1,6 @@
 import express from 'express';
+import morgan from 'morgan';
+import { morganConfig } from './middlewares/morgan';
 import { userRouter } from './routes/user';
 import { groupRouter } from './routes/group';
 import { sequelize } from './models/index';
@@ -9,6 +11,7 @@ const app = express();
 
 app.use(express.json());
 
+app.use(morgan(morganConfig));
 app.use(userRouter);
 app.use(groupRouter);
 
