@@ -1,6 +1,7 @@
 import { GroupModel } from '../models/GroupModel';
 import { sequelize } from '../models/index';
 import { Model } from 'sequelize';
+import { logger } from '../middlewares/winston';
 
 export const addUsersToGroup = async (
     groupId: string,
@@ -17,7 +18,12 @@ export const addUsersToGroup = async (
             );
         });
     } catch (e) {
-        console.error(e);
+        logger.error('error', e, {
+            method: 'GET',
+            name: 'addUsersToGroup',
+            message: e.message,
+            args: { groupId, userIds }
+        });
     }
     return result;
 };

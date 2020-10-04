@@ -1,33 +1,70 @@
 import { Op } from 'sequelize';
+import { logger } from '../middlewares/winston';
 import { ParsedQs } from 'qs';
 import { UserModel } from '../models/UserModel';
 import { UserType } from '../types/user';
 
 export class UserService {
     static create(user: UserType) {
-        UserModel.create(user);
+        try {
+            UserModel.create(user);
+        } catch (e) {
+            logger.error('error', e, {
+                method: 'GET',
+                name: 'userService.create',
+                message: e.message,
+                args: { user }
+            });
+        }
     }
 
     static async update(id: string, user: UserType) {
-        const foundUser = await UserModel.findByPk(id);
-        if (foundUser) {
-            Object.entries(user).map(
-                ([key, value]) => (foundUser[key] = value)
-            );
-            foundUser.save();
+        try {
+            const foundUser = await UserModel.findByPk(id);
+            if (foundUser) {
+                Object.entries(user).map(
+                    ([key, value]) => (foundUser[key] = value)
+                );
+                foundUser.save();
+            }
+            return foundUser;
+        } catch (e) {
+            logger.error('error', e, {
+                method: 'PUT',
+                name: 'userService.update',
+                message: e.message,
+                args: { id, user }
+            });
         }
-        return foundUser;
     }
 
     static async delete(id: string) {
-        const foundUser = await UserModel.findByPk(id);
-        if (foundUser) {
-            foundUser.destroy();
+        try {
+            const foundUser = await UserModel.findByPk(id);
+            if (foundUser) {
+                foundUser.destroy();
+            }
+        } catch (e) {
+            logger.error('error', e, {
+                method: 'DELETE',
+                name: 'userService.delete',
+                message: e.message,
+                args: { id }
+            });
         }
     }
 
     static getById(id: string) {
-        return UserModel.findByPk(id);
+        try {
+            return UserModel.findByPk(id);
+        } catch (e) {
+            logger.error('error', e, {
+                method: 'GET',
+                name: 'userService.getById',
+                message: e.message,
+                args: { id }
+            });
+        }
     }
 
     static getAll(
@@ -45,6 +82,15 @@ export class UserService {
                 }
             })
         };
-        return UserModel.findAll(options);
+        try {
+            return UserModel.findAll(options);
+        } catch (e) {
+            logger.error('error', e, {
+                method: 'GET',
+                name: 'userService.getAll',
+                message: e.message,
+                args: { loginSubstring, limit }
+            });
+        }
     }
 }

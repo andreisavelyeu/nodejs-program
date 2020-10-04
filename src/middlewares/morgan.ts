@@ -22,7 +22,6 @@ const normalizeSensitiveData = (
 
 token('args', (req: Request) => {
     const { body, query } = req;
-    console.log(query);
     return Object.keys(body).length
         ? `body: ${JSON.stringify(normalizeSensitiveData(body, 'password'))}`
         : Object.keys(query).length

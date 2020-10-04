@@ -1,4 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
+import { logger } from './winston';
 import Joi from 'joi';
 
 export const schemas = {
@@ -67,6 +68,10 @@ export const validateSchema = (schema: any) => (
     });
 
     if (error && error.isJoi) {
+        logger.error('error', error, {
+            method: req.method,
+            message: error.details
+        });
         res.status(400).json(errorResponse(error.details));
     } else {
         next();
