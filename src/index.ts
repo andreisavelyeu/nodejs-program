@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import { config } from 'dotenv';
@@ -15,7 +16,7 @@ import { GroupModel } from './models/GroupModel';
 config();
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
