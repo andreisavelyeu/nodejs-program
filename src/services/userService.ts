@@ -70,7 +70,7 @@ export class UserService {
     static getByLogin(login: string) {
         try {
             const options = {
-                raw: true,
+                raw: false,
                 where: {
                     login: {
                         [Op.eq]: login

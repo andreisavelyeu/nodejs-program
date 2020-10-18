@@ -25,5 +25,9 @@ export const UserModel = sequelize.define('User', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
+    },
+    refreshToken: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 });

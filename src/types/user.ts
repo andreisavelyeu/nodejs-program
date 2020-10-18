@@ -3,4 +3,5 @@ export type UserType = {
     login?: string;
     password?: string;
     age?: number;
+    refreshToken?: string;
 };

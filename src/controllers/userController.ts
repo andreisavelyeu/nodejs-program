@@ -2,17 +2,25 @@ import { Response, Request } from 'express';
 import { UserModel } from '../models/UserModel';
 import { UserService } from '../services/userService';
 import { addUsersToGroup } from '../services/addUsersToGroup';
+import { UserType } from '../types/user';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     const { loginSubstring, limit } = req.query;
-    const filteredUserList = await UserService.getAll(loginSubstring, +limit);
+    const userList = await UserService.getAll(loginSubstring, +limit);
+    const filteredUserList = userList.map((user) => {
+        /* eslint-disable-next-line */
+        const { refreshToken, ...userData } = user as UserType;
+        return userData;
+    });
     res.json(filteredUserList);
 };
 
 export const getUser = async (req: Request, res: Response) => {
     const user = await UserService.getById(req.params.id);
     if (user) {
-        res.json(user);
+        /* eslint-disable-next-line */
+        const { refreshToken, ...userData } = user as UserType;
+        res.json(userData);
     } else {
         res.sendStatus(404);
     }

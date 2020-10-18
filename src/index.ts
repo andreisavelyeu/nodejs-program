@@ -8,7 +8,7 @@ import { morganConfig } from './middlewares/morgan';
 import { jwtValidator } from './middlewares/jwt';
 import { userRouter } from './routes/user';
 import { groupRouter } from './routes/group';
-import { loginRouter } from './routes/login';
+import { authRouter } from './routes/auth';
 import { sequelize } from './models/index';
 import { UserModel } from './models/UserModel';
 import { GroupModel } from './models/GroupModel';
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(morgan(morganConfig));
-app.use(loginRouter);
+app.use(authRouter);
 app.use(jwtValidator);
 app.use(userRouter);
 app.use(groupRouter);
