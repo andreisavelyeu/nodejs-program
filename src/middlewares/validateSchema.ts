@@ -1,4 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
+import { logger } from './winston';
+import { normalizeSensitiveData } from './morgan';
 import Joi from 'joi';
 
 export const schemas = {
@@ -67,7 +69,15 @@ export const validateSchema = (schema: any) => (
     });
 
     if (error && error.isJoi) {
-        res.status(400).json(errorResponse(error.details));
+        const normalizedError = {
+            ...error,
+            _original: normalizeSensitiveData(error._original, 'password')
+        };
+        logger.error('error', normalizedError, {
+            method: req.method,
+            message: normalizedError.details
+        });
+        res.status(400).json(errorResponse(normalizedError.details));
     } else {
         next();
     }

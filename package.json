@@ -39,13 +39,17 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "@types/morgan": "^1.9.1",
+    "chalk": "^4.1.0",
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "joi": "^17.2.1",
+    "morgan": "^1.10.0",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "winston": "^3.3.3"
   }
 }

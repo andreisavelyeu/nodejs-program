@@ -1,4 +1,7 @@
 import express from 'express';
+import morgan from 'morgan';
+import { logger, unhandledErrorMiddleware } from './middlewares/winston';
+import { morganConfig } from './middlewares/morgan';
 import { userRouter } from './routes/user';
 import { groupRouter } from './routes/group';
 import { sequelize } from './models/index';
@@ -9,8 +12,23 @@ const app = express();
 
 app.use(express.json());
 
+app.use(morgan(morganConfig));
 app.use(userRouter);
 app.use(groupRouter);
+
+// 500 error middleware
+app.use(unhandledErrorMiddleware);
+
+// uncaught exception logging
+process.on('uncaughtException', (error: Error) => {
+    logger.error('error', error);
+    process.exit(1);
+});
+
+// unhandled promise rejection logging
+process.on('unhandledRejection', (error: Error) => {
+    logger.error(error);
+});
 
 GroupModel.belongsToMany(UserModel, { through: 'UserGroups' });
 UserModel.belongsToMany(GroupModel, { through: 'UserGroups' });
