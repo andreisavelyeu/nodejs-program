@@ -67,6 +67,27 @@ export class UserService {
         }
     }
 
+    static getByLogin(login: string) {
+        try {
+            const options = {
+                raw: false,
+                where: {
+                    login: {
+                        [Op.eq]: login
+                    }
+                }
+            };
+            return UserModel.findOne(options);
+        } catch (e) {
+            logger.error('error', e, {
+                method: 'GET',
+                name: 'userService.getByLogin',
+                message: e.message,
+                args: { login }
+            });
+        }
+    }
+
     static getAll(
         loginSubstring?: string | ParsedQs | string[] | ParsedQs[],
         limit?: number
