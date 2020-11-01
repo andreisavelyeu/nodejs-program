@@ -43,20 +43,6 @@ process.on('unhandledRejection', (error: Error) => {
 GroupModel.belongsToMany(UserModel, { through: 'UserGroups' });
 UserModel.belongsToMany(GroupModel, { through: 'UserGroups' });
 
-sequelize.sync({ force: true }).then(() => {
-    console.log(`Database & tables created!`);
-
-    UserModel.bulkCreate([
-        { login: 'Mikalai', age: 29, password: '2d1afd2da' },
-        { login: 'Mikita', age: 21, password: '312das' }
-    ]);
-
-    GroupModel.bulkCreate([
-        { name: 'Football', permissions: ['READ', 'WRITE'] },
-        { name: 'Group402', permissions: ['SHARE', 'READ', 'WRITE'] }
-    ]);
-});
-
-app.listen(3000, () => {
+export const server = app.listen(3000, () => {
     console.log('listening on port 3000');
 });

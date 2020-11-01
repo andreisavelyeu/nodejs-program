@@ -1,12 +1,16 @@
 import { dbConfig } from '../config/db.config';
 import { Sequelize } from 'sequelize';
 
+const env = process.env.NODE_ENV || 'development';
+const config = dbConfig[env];
+
 export const sequelize = new Sequelize(
-    dbConfig.DB,
-    dbConfig.USER,
-    dbConfig.PASSWORD,
+    config.DB,
+    config.USER,
+    config.PASSWORD,
     {
-        host: dbConfig.HOST,
-        dialect: 'postgres'
+        host: config.HOST,
+        dialect: 'postgres',
+        logging: false
     }
 );
